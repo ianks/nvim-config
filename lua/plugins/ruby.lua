@@ -1,14 +1,5 @@
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    optional = true,
-    opts = function(_, opts)
-      if opts.ensure_installed ~= "all" then
-        opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "ruby" })
-      end
-    end,
-  },
-  {
     "williamboman/mason-lspconfig.nvim",
     optional = true,
     opts = function(_, opts)
@@ -37,15 +28,5 @@ return {
         ruby = { "rubocop" },
       },
     },
-  },
-  {
-    "nvim-neotest/neotest",
-    optional = true,
-    dependencies = { "zidhuss/neotest-minitest" },
-    opts = function(_, opts)
-      if not opts.adapters then opts.adapters = {} end
-      local avail, adapter = pcall(require, "neotest-minitest")
-      if avail then table.insert(opts.adapters, adapter) end
-    end,
   },
 }
