@@ -15,6 +15,14 @@ return {
       max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
       --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
     },
+    rag_service = {
+      enabled = true, -- Enables the RAG service
+      host_mount = os.getenv("HOME"), -- Host mount path for the rag service
+      provider = "openai", -- The provider to use for RAG service (e.g. openai or ollama)
+      llm_model = "gpt-3.5-turbo", -- The LLM model to use for RAG service
+      embed_model = "text-embedding-ada-002", -- The embedding model to use for RAG service
+      endpoint = os.getenv("OPENAI_API_BASE") or "https://api.openai.com/v1", -- The API endpoint for RAG service
+    },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
   build = "make",
