@@ -4,60 +4,61 @@ return {
   event = "VeryLazy",
   version = false, -- Never set this value to "*"! Never!
   opts = {
-    -- add any opts here
-    -- for example
-    provider = "openai",
-    openai = {
-      endpoint = "https://api.openai.com/v1",
-      model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-      timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-      temperature = 0,
-      max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-      --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+    provider = os.getenv("GROQ_API_KEY") and "groq_reasoning" or "claude",
+    cursor_applying_provider = os.getenv("GROQ_API_KEY") and "groq_cursor_applying" or nil,
+    behaviour = {
+      enable_cursor_planning_mode = true,
+    },
+    vendors = {
+      groq_reasoning = {
+        __inherited_from = 'openai',
+        api_key_name = 'GROQ_API_KEY',
+        endpoint = 'https://api.groq.com/openai/v1/',
+        model = 'qwen-qwq-32b',
+        max_completion_tokens = 16384,
+      },
+      groq_cursor_applying = {
+        __inherited_from = 'openai',
+        api_key_name = 'GROQ_API_KEY',
+        endpoint = 'https://api.groq.com/openai/v1/',
+        model = 'llama-3.3-70b-versatile',
+        max_completion_tokens = 32768, -- increased to prevent generation from stopping halfway
+      },
     },
     rag_service = {
-      enabled = true, -- Enables the RAG service
-      host_mount = os.getenv("HOME"), -- Host mount path for the rag service
-      provider = "openai", -- The provider to use for RAG service (e.g. openai or ollama)
-      llm_model = "gpt-3.5-turbo", -- The LLM model to use for RAG service
-      embed_model = "text-embedding-ada-002", -- The embedding model to use for RAG service
-      endpoint = os.getenv("OPENAI_API_BASE") or "https://api.openai.com/v1", -- The API endpoint for RAG service
+      enabled = true,
+      host_mount = os.getenv("HOME") .. "/src",
+      provider = "openai",
+      llm_model = "gpt-3.5-turbo",
+      embed_model = "text-embedding-3-large",
+      endpoint = os.getenv("OPENAI_API_BASE") or "https://api.openai.com/v1",
     },
   },
-  -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-  build = "make",
-  -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+  build = "make BUILD_FROM_SOURCE=true",
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
     "stevearc/dressing.nvim",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
-    --- The below dependencies are optional,
-    -- "echasnovski/mini.pick", -- for file_selector provider mini.pick
-    "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-    "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-    -- "ibhagwan/fzf-lua", -- for file_selector provider fzf
-    "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-    "zbirenbaum/copilot.lua", -- for providers='copilot'
+    "nvim-telescope/telescope.nvim",
+    "hrsh7th/nvim-cmp",
+    "nvim-tree/nvim-web-devicons",
+    "zbirenbaum/copilot.lua",
     {
-      -- support for image pasting
       "HakonHarnes/img-clip.nvim",
       event = "VeryLazy",
       opts = {
-        -- recommended settings
         default = {
           embed_image_as_base64 = false,
           prompt_for_file_name = false,
           drag_and_drop = {
             insert_mode = true,
           },
-          -- required for Windows users
           use_absolute_path = true,
         },
       },
     },
     {
-      -- Make sure to set this up properly if you have lazy=true
       'MeanderingProgrammer/render-markdown.nvim',
       opts = {
         file_types = { "markdown", "Avante" },

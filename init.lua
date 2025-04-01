@@ -7,6 +7,9 @@ if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- views can only be fully collapsed with the global statusline
+vim.opt.laststatus = 3
+
 -- validate that lazy is available
 if not pcall(require, "lazy") then
   -- stylua: ignore
