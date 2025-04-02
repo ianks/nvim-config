@@ -1,37 +1,88 @@
+local openai_base = os.getenv("OPENAI_API_BASE")
+
+if not openai_base or openai_base == "" then
+  vim.notify("Environment variable OPENAI_API_BASE is not set. Avante.nvim will not load.", vim.log.levels.WARN)
+  return {}
+end
+
 ---@type LazySpec
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
   version = false, -- Never set this value to "*"! Never!
   opts = {
-    provider = os.getenv("GROQ_API_KEY") and "groq_reasoning" or "claude",
-    cursor_applying_provider = os.getenv("GROQ_API_KEY") and "groq_cursor_applying" or nil,
-    behaviour = {
+    provider = 'default_provider',
+    cursor_apply_provider = 'default_applying_provider',
+    behavior = {
       enable_cursor_planning_mode = true,
     },
     vendors = {
-      groq_reasoning = {
+      default_provider = {
         __inherited_from = 'openai',
-        api_key_name = 'GROQ_API_KEY',
-        endpoint = 'https://api.groq.com/openai/v1/',
-        model = 'qwen-qwq-32b',
-        max_completion_tokens = 16384,
+        api_key_name = 'OPENAI_API_KEY',
+        model = "anthropic:claude-3-7-sonnet",
+        endpoint = openai_base,
       },
-      groq_cursor_applying = {
+      default_applying_provider = {
         __inherited_from = 'openai',
-        api_key_name = 'GROQ_API_KEY',
-        endpoint = 'https://api.groq.com/openai/v1/',
-        model = 'llama-3.3-70b-versatile',
-        max_completion_tokens = 32768, -- increased to prevent generation from stopping halfway
+        api_key_name = 'OPENAI_API_KEY',
+        endpoint = openai_base,
+        model = 'fast',
+        -- max_tokens = 32768,
+        max_tokens = 16384,
       },
     },
     rag_service = {
-      enabled = true,
+      enabled = false,
       host_mount = os.getenv("HOME") .. "/src",
       provider = "openai",
       llm_model = "gpt-3.5-turbo",
       embed_model = "text-embedding-3-large",
-      endpoint = os.getenv("OPENAI_API_BASE") or "https://api.openai.com/v1",
+      endpoint = openai_base,
+    },
+    custom_tools = {
+      {
+        name = "run_dev_tests",  -- Unique name for the tool
+        description = "Execute tests using the 'dev test' command. This tool allows running specific test files with standard minitest options like name filters (--name=/pattern/). Result is the stdout of the test execution.",
+        param = {  -- Input parameters
+          type = "table",
+          fields = {
+            {
+              name = "filename",
+              description = "Test file to run (e.g. 'test/integration/custom_spec.rb')",
+              type = "string",
+              optional = true,
+            },
+            {
+              name = "options",
+              description = "Minitest options (e.g. '--name=/tablerow/ --trace')",
+              type = "string",
+              optional = true,
+            },
+          },
+        },
+        returns = {  -- Expected return values
+          {
+            name = "result",
+            description = "Result of the test execution",
+            type = "string",
+          },
+          {
+            name = "error",
+            description = "Error message if the test execution was not successful",
+            type = "string",
+            optional = true,
+          },
+        },
+        func = function(params, on_log, on_complete)  -- Custom function to execute
+          local filename = params.filename or ""
+          local options = params.options or ""
+          local command = string.format("dev test %s %s", filename, options)
+          on_log("Executing: " .. command)
+          local result = vim.fn.system(command)
+          return result
+        end,
+      },
     },
   },
   build = "make BUILD_FROM_SOURCE=true",
