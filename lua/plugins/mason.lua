@@ -12,6 +12,7 @@ return {
       ensure_installed = {
         "lua_ls",
         "rust_analyzer",
+        "ruby_lsp",
         -- add more arguments for adding more language servers
       },
     },
@@ -23,6 +24,7 @@ return {
     opts = {
       ensure_installed = {
         "stylua",
+        "rubocop",
         -- add more arguments for adding more null-ls sources
       },
     },
@@ -32,7 +34,7 @@ return {
     -- overrides `require("mason-nvim-dap").setup(...)`
     opts = {
       ensure_installed = {
-        "python",
+        "ruby",
         -- add more arguments for adding more debuggers
       },
     },
