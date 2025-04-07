@@ -1,4 +1,4 @@
-local openai_base = os.getenv("OPENAI_API_BASE")
+local openai_base = os.getenv "OPENAI_API_BASE"
 
 if not openai_base or openai_base == "" then
   vim.notify("Environment variable OPENAI_API_BASE is not set. Avante.nvim will not load.", vim.log.levels.WARN)
@@ -11,30 +11,29 @@ return {
   event = "VeryLazy",
   version = false, -- Never set this value to "*"! Never!
   opts = {
-    provider = 'default_provider',
-    cursor_apply_provider = 'default_applying_provider',
+    provider = "claude",
     behavior = {
       enable_cursor_planning_mode = true,
+      enable_claude_text_editor_tool_mode = true,
     },
-    vendors = {
-      default_provider = {
-        __inherited_from = 'openai',
-        api_key_name = 'OPENAI_API_KEY',
-        model = "anthropic:claude-3-7-sonnet",
-        endpoint = openai_base,
-      },
-      default_applying_provider = {
-        __inherited_from = 'openai',
-        api_key_name = 'OPENAI_API_KEY',
-        endpoint = openai_base,
-        model = 'fast',
-        -- max_tokens = 32768,
-        max_tokens = 16384,
-      },
+    claude = {
+      endpoint = os.getenv "ANTHROPIC_API_BASE",
+      model = "claude-3-7-sonnet-20250219",
+      timeout = 30000, -- Timeout in milliseconds
+      temperature = 0,
+      max_tokens = 20480,
+    },
+    openai = {
+      endpoint = os.getenv "OPENAI_API_BASE",
+      model = "gpt-4o",
+      timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+      temperature = 0,
+      max_tokens = 16384, -- Increase this to include reasoning tokens (for reasoning models)
+      reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
     },
     rag_service = {
       enabled = false,
-      host_mount = os.getenv("HOME") .. "/src",
+      host_mount = os.getenv "HOME" .. "/src",
       provider = "openai",
       llm_model = "gpt-3.5-turbo",
       embed_model = "text-embedding-3-large",
@@ -42,9 +41,9 @@ return {
     },
     custom_tools = {
       {
-        name = "run_dev_tests",  -- Unique name for the tool
+        name = "run_dev_tests", -- Unique name for the tool
         description = "Execute tests using the 'dev test' command. This tool allows running specific test files with standard minitest options like name filters (--name=/pattern/). Result is the stdout of the test execution.",
-        param = {  -- Input parameters
+        param = { -- Input parameters
           type = "table",
           fields = {
             {
@@ -61,7 +60,7 @@ return {
             },
           },
         },
-        returns = {  -- Expected return values
+        returns = { -- Expected return values
           {
             name = "result",
             description = "Result of the test execution",
@@ -74,7 +73,7 @@ return {
             optional = true,
           },
         },
-        func = function(params, on_log, on_complete)  -- Custom function to execute
+        func = function(params, on_log, on_complete) -- Custom function to execute
           local filename = params.filename or ""
           local options = params.options or ""
           local command = string.format("dev test %s %s", filename, options)
@@ -110,7 +109,7 @@ return {
       },
     },
     {
-      'MeanderingProgrammer/render-markdown.nvim',
+      "MeanderingProgrammer/render-markdown.nvim",
       opts = {
         file_types = { "markdown", "Avante" },
       },
