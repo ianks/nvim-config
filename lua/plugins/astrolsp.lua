@@ -12,17 +12,19 @@ return {
         cmd = { "shadowenv", "exec", "--", "ruby-lsp" },
         filetypes = { "ruby" },
         -- root directory detection for detecting the project root
-        root_dir = require("lspconfig.util").root_pattern "Gemfile",
+        root_dir = require("lspconfig.util").root_pattern "dev.yml",
       },
       rust_analyzer = {
+        cmd = { "shadowenv", "exec", "--", "rust-analyzer" },
         settings = {
           ["rust-analyzer"] = {
             cargo = {
-              extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
-              extraArgs = { "--profile", "rust-analyzer" },
+              extraEnv = { CARGO_TARGET_DIR = "target/astrolsp" },
+              extraArgs = {},
             },
           },
         },
+        root_dir = require("lspconfig.util").root_pattern "dev.yml",
       },
     },
     formatting = {
