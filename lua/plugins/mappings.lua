@@ -22,6 +22,14 @@ return {
           ["<C-j>"] = { function() vim.cmd("bfirst") end, desc = "First buffer" },
           ["<C-k>"] = { function() vim.cmd("blast") end, desc = "Last buffer" },
 
+          -- Disable default close buffer mapping
+          ["<leader>ca"] = {
+            desc = "LSP Code actions",
+            function()
+              vim.lsp.buf.code_action()
+            end,
+          },
+
           -- -- Tab navigation (changed from Ctrl to Alt)
           -- ["<A-h>"] = { function() vim.cmd("tabprevious") end, desc = "Previous tab" },
           -- ["<A-l>"] = { function() vim.cmd("tabnext") end, desc = "Next tab" },
