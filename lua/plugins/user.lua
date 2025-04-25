@@ -70,7 +70,11 @@ return {
       return opts
     end,
   },
-
+  {
+    "akinsho/git-conflict.nvim",
+    version = "*",
+    config = true,
+  },
   {
     "windwp/nvim-autopairs",
     config = function(plugin, opts)
