@@ -28,7 +28,7 @@ return {
         root_dir = require("lspconfig.util").root_pattern("dev.yml", "Gemfile.lock", "Gemfile"),
       },
       rust_analyzer = {
-        cmd = maybe_shadowenv_exec "rust-analyzer",
+        cmd = maybe_shadowenv_exec "ra-multiplex",
         settings = {
           ["rust_analyzer"] = {
             cargo = {
@@ -39,9 +39,25 @@ return {
         },
         root_dir = require("lspconfig.util").root_pattern("dev.yml", "Cargo.lock", "Cargo.toml"),
       },
+      clangd = {
+        cmd = (function()
+          local cmd = maybe_shadowenv_exec "clangd"
+          -- Use query-driver to find system includes, including Homebrew's
+          table.insert(cmd, "--query-driver=/opt/homebrew/opt/llvm/bin/*")
+          return cmd
+        end)(),
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+        root_dir = require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+      },
     },
     formatting = {
-      format_on_save = { enabled = true },
+      format_on_save = {
+        enabled = true,
+        ignore_filetypes = {
+          "c",
+          "cpp",
+        },
+      },
       timeout_ms = 1000,
     },
   },
