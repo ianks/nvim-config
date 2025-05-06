@@ -87,26 +87,33 @@ return {
   event = "VeryLazy",
   version = false,
   opts = {
-    provider = "claude",
+    provider = "openai",
     system_prompt = function() return system_prompt end,
     behavior = {
+      auto_suggestions = true,
       enable_cursor_planning_mode = true,
       enable_claude_text_editor_tool_mode = true,
+      auto_set_highlight_group = true,
+      auto_set_keymaps = true,
+      auto_apply_diff_after_generation = true,
+      support_paste_from_clipboard = true,
+      minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
+      enable_token_counting = true, -- Whether to enable token counting. Default to true.
     },
     claude = {
       endpoint = os.getenv "ANTHROPIC_API_BASE",
-      model = "claude-3-7-sonnet-20250219",
-      timeout = 30000, -- Timeout in milliseconds
-      temperature = 0,
-      max_tokens = 20480,
+      model = "claude-3-5-sonnet-latest",
+      timeout = 60000, -- Timeout in milliseconds
+      temperature = 0.2,
+      max_tokens = 8182,
     },
     openai = {
       endpoint = os.getenv "OPENAI_API_BASE",
-      model = "gpt-4o",
-      timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-      temperature = 0,
+      model = "gpt-4.1",
+      -- reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+      timeout = 60000, -- Timeout in milliseconds, increase this for reasoning models
+      temperature = 0.2,
       max_tokens = 16384, -- Increase this to include reasoning tokens (for reasoning models)
-      reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
     },
     rag_service = {
       enabled = false,
@@ -117,17 +124,39 @@ return {
       endpoint = openai_base,
     },
     windows = {
+      ---@type "right" | "left" | "top" | "bottom"
+      position = "right", -- the position of the sidebar
+      wrap = true, -- similar to vim.o.wrap
+      width = 30, -- default % based on available width
+      sidebar_header = {
+        enabled = false, -- true, false to enable/disable the header
+        align = "center", -- left, center, right for title
+        rounded = false,
+      },
+      input = {
+        prefix = "❯ ",
+        height = 8, -- Height of the input window in vertical layout
+      },
+      edit = {
+        border = "rounded",
+        start_insert = true, -- Start insert mode when opening the edit window
+      },
       ask = {
-        start_insert = false,
+        floating = false, -- Open the 'AvanteAsk' prompt in a floating window
+        start_insert = true, -- Start insert mode when opening the ask window
+        border = "rounded",
+        ---@type "ours" | "theirs"
+        focus_on_apply = "ours", -- which diff to focus after applying
       },
     },
+    ---@type AvanteSlashCommand[]
     slash_commands = {
       {
         name = "boot",
-        description = "Analyze project structure and documentation. Summarize system purpose, architecture, and key components.",
-        shorthelp = "Load project context",
-        callback = function(_, _, cb)
-          cb [[
+        description = "Load project context",
+        details = "Analyze project structure and documentation. Summarize system purpose, architecture, and key components.",
+        callback = function(_, _, _)
+          local input = [[
             # Prompt for BOOT Command
 
             You are analyzing a software project to build a comprehensive mental model. Follow these steps precisely:
@@ -151,14 +180,19 @@ return {
 
             This command serves to establish a baseline understanding of the project that will inform all subsequent conversations.
           ]]
+
+          local utils = require "avante.api"
+          utils.ask {
+            question = input,
+          }
         end,
       },
       {
         name = "polish",
-        description = "Refactor recent code to improve clarity, maintainability, and standards alignment.",
-        shorthelp = "Refactor code",
-        callback = function(_, _, cb)
-          cb [[
+        description = "Refactor code",
+        details = "Refactor recent code to improve clarity, maintainability, and standards alignment.",
+        callback = function(_, _, _)
+          local input = [[
             # Prompt for POLISH Command
 
             Analyze the code I've shared with you and suggest improvements focused on:
@@ -185,14 +219,19 @@ return {
 
             Provide your suggestions as specific, actionable changes with clear explanations of the benefits. When possible, include before/after code examples to illustrate your recommendations.
           ]]
+
+          local utils = require "avante.api"
+          utils.ask {
+            question = input,
+          }
         end,
       },
       {
         name = "document",
-        description = "Generate deterministically-named documentation files in docs/ directory.",
-        shorthelp = "Generate documentation",
-        callback = function(_, _, cb)
-          cb [[
+        description = "Generate documentation",
+        details = "Generate deterministically-named documentation files in docs/ directory.",
+        callback = function(_, _, _)
+          local input = [[
             # Prompt for DOCUMENT Command
 
             Based on the code and context I've shared, generate comprehensive documentation following these guidelines:
@@ -222,14 +261,19 @@ return {
 
             Generate documentation that would be placed in a docs/ directory. Focus on creating documentation that will remain valuable even as implementation details change.
           ]]
+
+          local utils = require "avante.api"
+          utils.ask {
+            question = input,
+          }
         end,
       },
-      vault = {
+      {
         name = "vault",
-        description = "Write a concise, engaging, first-person markdown social media post explaining a technical concept.",
-        shorthelp = "Create technical post",
-        callback = function(_, _, cb)
-          cb [[
+        description = "Create technical post",
+        details = "Write a concise, engaging, first-person markdown social media post explaining a technical concept.",
+        callback = function(_, _, _)
+          local input = [[
             # Prompt for VAULT Command
 
             Create a concise, engaging, first-person markdown social media post that explains both the "why" and "how" of the technical concept or solution I've shared. Follow these guidelines:
@@ -257,6 +301,11 @@ return {
 
             The final output should be something a developer would be proud to share on platforms like Twitter, LinkedIn, or a technical blog. It should demonstrate expertise while remaining approachable and valuable to readers.
           ]]
+
+          local utils = require "avante.api"
+          utils.ask {
+            question = input,
+          }
         end,
       },
     },
