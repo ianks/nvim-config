@@ -1,4 +1,4 @@
-local openai_base = os.getenv "OPENAI_API_BASE"
+local openai_base = os.getenv "OPENAI_API_BASE" or "https://api.openai.com/v1"
 
 if not openai_base or openai_base == "" then
   vim.notify("Environment variable OPENAI_API_BASE is not set. Avante.nvim will not load.", vim.log.levels.WARN)
