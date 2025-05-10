@@ -80,7 +80,7 @@ return {
   event = "VeryLazy",
   version = false,
   opts = {
-    provider = "openai",
+    provider = "claude",
     system_prompt = function() return system_prompt end,
     behavior = {
       auto_suggestions = true,
