@@ -1,10 +1,3 @@
-local openai_base = os.getenv "OPENAI_API_BASE" or "https://api.openai.com/v1"
-
-if not openai_base or openai_base == "" then
-  vim.notify("Environment variable OPENAI_API_BASE is not set. Avante.nvim will not load.", vim.log.levels.WARN)
-  return {}
-end
-
 local system_prompt = [[
 # LLM ENGINEERING ASSISTANT
 
@@ -101,18 +94,17 @@ return {
       enable_token_counting = true, -- Whether to enable token counting. Default to true.
     },
     claude = {
-      endpoint = os.getenv "ANTHROPIC_API_BASE",
-      model = "claude-3-5-sonnet-latest",
-      timeout = 60000, -- Timeout in milliseconds
-      temperature = 0.2,
-      max_tokens = 8182,
+      endpoint = os.getenv "ANTHROPIC_API_BASE" or "https://api.anthropic.com",
+      model = "claude-3-7-sonnet-latest",
+      timeout = 30000, -- Timeout in milliseconds
+      temperature = 0,
+      max_tokens = 20480,
     },
     openai = {
-      endpoint = os.getenv "OPENAI_API_BASE",
+      endpoint = os.getenv "OPENAI_API_BASE" or "https://api.openai.com/v1",
       model = "gpt-4.1",
-      -- reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
       timeout = 60000, -- Timeout in milliseconds, increase this for reasoning models
-      temperature = 0.2,
+      temperature = 0,
       max_tokens = 16384, -- Increase this to include reasoning tokens (for reasoning models)
     },
     rag_service = {
@@ -121,7 +113,7 @@ return {
       provider = "openai",
       llm_model = "gpt-3.5-turbo",
       embed_model = "text-embedding-3-large",
-      endpoint = openai_base,
+      endpoint = os.getenv "OPENAI_API_BASE" or "https://api.openai.com/v1",
     },
     windows = {
       ---@type "right" | "left" | "top" | "bottom"
