@@ -7,6 +7,7 @@ return {
   -- == Examples of Adding Plugins ==
 
   "andweeb/presence.nvim",
+  { "stevearc/dressing.nvim", enabled = false },
   {
     "ray-x/lsp_signature.nvim",
     event = "BufRead",
@@ -18,6 +19,7 @@ return {
   -- customize alpha options
   {
     "goolord/alpha-nvim",
+    enabled = false,
     opts = function(_, opts)
       -- customize the dashboard header
       opts.section.header.val = {
@@ -49,6 +51,23 @@ return {
         "                    ⠀⠀⠀⠀⠀⠀⠀⠀⠈                  ",
       }
       return opts
+    end,
+  },
+
+  -- AstroNvim v5 dashboard (Snacks)
+  {
+    "folke/snacks.nvim",
+    opts = function(_, opts)
+      local header = {
+        "              ⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀              ",
+        "           ⢀⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀           ",
+        "         ⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀         ",
+        "       ⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄       ",
+        "      ⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆      ",
+        "     ⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠛⠛⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄     ",
+        "    ⢀⣿⣿⣿⣿⣿⣿⣿⠟⠋⠀⠀⣠⣴⠀⣠⣦⠀⠀⠙⠻⣿⣿⣿⣿⣿⣿⣿⡀    ",
+      }
+      opts.dashboard = vim.tbl_deep_extend("force", opts.dashboard or {}, { header = header })
     end,
   },
 

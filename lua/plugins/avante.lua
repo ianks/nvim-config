@@ -93,19 +93,25 @@ return {
       minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
       enable_token_counting = true, -- Whether to enable token counting. Default to true.
     },
-    claude = {
-      endpoint = os.getenv "ANTHROPIC_API_BASE" or "https://api.anthropic.com",
-      model = "claude-3-7-sonnet-latest",
-      timeout = 30000, -- Timeout in milliseconds
-      temperature = 0,
-      max_tokens = 20480,
-    },
-    openai = {
-      endpoint = os.getenv "OPENAI_API_BASE" or "https://api.openai.com/v1",
-      model = "gpt-4.1",
-      timeout = 60000, -- Timeout in milliseconds, increase this for reasoning models
-      temperature = 0,
-      max_tokens = 16384, -- Increase this to include reasoning tokens (for reasoning models)
+    providers = {
+      claude = {
+        endpoint = os.getenv "ANTHROPIC_API_BASE" or "https://api.anthropic.com",
+        model = "claude-3-7-sonnet-latest",
+        timeout = 30000,
+        extra_request_body = {
+          temperature = 0,
+          max_tokens = 20480,
+        },
+      },
+      openai = {
+        endpoint = os.getenv "OPENAI_API_BASE" or "https://api.openai.com/v1",
+        model = "gpt-4.1",
+        timeout = 60000,
+        extra_request_body = {
+          temperature = 0,
+          max_tokens = 16384,
+        },
+      },
     },
     rag_service = {
       enabled = false,
@@ -310,7 +316,6 @@ return {
   build = "make BUILD_FROM_SOURCE=true",
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
-    "stevearc/dressing.nvim",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
     "nvim-telescope/telescope.nvim",

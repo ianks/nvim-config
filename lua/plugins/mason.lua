@@ -1,42 +1,27 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
--- Customize Mason plugins
-
+-- Mason configuration updated for AstroNvim v5
 ---@type LazySpec
 return {
-  -- use mason-lspconfig to configure LSP installations
+  -- Disable legacy helpers that are now handled by mason-tool-installer
+  { "williamboman/mason-lspconfig.nvim", enabled = false },
+  { "jay-babu/mason-null-ls.nvim", enabled = false },
+  { "jay-babu/mason-nvim-dap.nvim", enabled = false },
+
+  -- Unified installer/auto-updater
   {
-    "williamboman/mason-lspconfig.nvim",
-    -- overrides `require("mason-lspconfig").setup(...)`
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    event = "VeryLazy",
     opts = {
       ensure_installed = {
-        "lua_ls",
-        -- "rust_analyzer",
-        "ruby_lsp",
-        -- add more arguments for adding more language servers
-      },
-    },
-  },
-  -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
-  {
-    "jay-babu/mason-null-ls.nvim",
-    -- overrides `require("mason-null-ls").setup(...)`
-    opts = {
-      ensure_installed = {
+        -- LSP servers
+        "lua-language-server",
+        "ruby-lsp",
+        -- Formatters / linters
         "stylua",
         "rubocop",
-        -- add more arguments for adding more null-ls sources
+        -- Debuggers
       },
-    },
-  },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    -- overrides `require("mason-nvim-dap").setup(...)`
-    opts = {
-      ensure_installed = {
-        "ruby",
-        -- add more arguments for adding more debuggers
-      },
+      auto_update = true,
+      run_on_start = true,
     },
   },
 }
