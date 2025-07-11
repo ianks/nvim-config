@@ -153,12 +153,14 @@ add that file’s content to the chat. Better safe than sorry.
   Remove that line to activate the file’s post-setup logic (custom file-types, etc.).
 
 - **`lua/lazy_setup.lua` import order** – Loads specs in this sequence:
+
   1. `astronvim.plugins` (core)
   2. `community` (AstroCommunity)
   3. `plugins` (your custom specs)  
      Add/override plugins in `lua/plugins/` – they are merged last.
 
 - **Lint / Format rules** – Already configured:
+
   - `stylua.toml` → 2-space indent, 120-column width.
   - `selene.toml` → `std = "neovim"`, common Astro globals allowed.  
     Always run:

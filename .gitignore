@@ -1,2 +1,7 @@
 .aider.tags.cache.v4/
 tmp/
+
+# Nix
+result
+result-*
+.direnv/

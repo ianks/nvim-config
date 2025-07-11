@@ -27,18 +27,17 @@ return {
         -- root directory detection for detecting the project root
         root_dir = require("lspconfig.util").root_pattern("dev.yml", "Gemfile.lock", "Gemfile"),
       },
-      rust_analyzer = {
-        cmd = maybe_shadowenv_exec "ra-multiplex",
-        settings = {
-          ["rust_analyzer"] = {
-            cargo = {
-              extraEnv = { CARGO_TARGET_DIR = "target/astrolsp" },
-              extraArgs = {},
-            },
-          },
-        },
-        root_dir = require("lspconfig.util").root_pattern("dev.yml", "Cargo.lock", "Cargo.toml"),
-      },
+      -- rust_analyzer = {
+      --   cmd = maybe_shadowenv_exec "ra-multiplex",
+      --   settings = {
+      --     ["rust-analyzer"] = {
+      --       cargo = {
+      --         targetDir = "target/astrolsp",
+      --       },
+      --     },
+      --   },
+      --   root_dir = require("lspconfig.util").root_pattern("dev.yml", "Cargo.lock", "Cargo.toml"),
+      -- },
       clangd = {
         cmd = (function()
           local cmd = maybe_shadowenv_exec "clangd"
