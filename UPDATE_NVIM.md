@@ -67,16 +67,16 @@ return {
   { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.toml" },
-  
+
   -- AI Integration Recipe - CRITICAL for proper Tab handling with Blink.cmp
   { import = "astrocommunity.recipes.ai" },
-  
+
   -- Copilot - Provides tight LSP integration
   { import = "astrocommunity.completion.copilot-lua" },
-  
+
   -- Theme
   { import = "astrocommunity.colorscheme.catppuccin" },
-  
+
   -- Useful motion plugins
   { import = "astrocommunity.motion.nvim-surround" },
   { import = "astrocommunity.motion.mini-move" },
@@ -154,7 +154,8 @@ return {
 }
 ```
 
-**Why copilot.lua?** 
+**Why copilot.lua?**
+
 - **Native Neovim**: Built specifically for Neovim, not a port from VSCode
 - **Performance**: Async operations don't block your typing
 - **LSP-aware**: Copilot suggestions complement rather than compete with LSP completions
@@ -206,7 +207,7 @@ return {
     { "<C-j>", function() require("smart-splits").move_cursor_down() end, desc = "Move to lower split", mode = { "n", "t" } },
     { "<C-k>", function() require("smart-splits").move_cursor_up() end, desc = "Move to upper split", mode = { "n", "t" } },
     { "<C-l>", function() require("smart-splits").move_cursor_right() end, desc = "Move to right split", mode = { "n", "t" } },
-    
+
     -- Resizing
     { "<M-h>", function() require("smart-splits").resize_left() end, desc = "Resize split left" },
     { "<M-j>", function() require("smart-splits").resize_down() end, desc = "Resize split down" },
@@ -241,7 +242,7 @@ return {
     vim.g["test#strategy"] = "neovim"
     vim.g["test#neovim#term_position"] = "botright 15"
     vim.g["test#neovim#start_normal"] = 1
-    
+
     -- Only add custom runner if you REALLY need nvim-test-runner
     -- vim.cmd [[
     --   function! DevTestTransform(cmd) abort
@@ -290,11 +291,13 @@ return {
 With this setup, you get a seamless experience:
 
 1. **Tab Behavior**:
+
    - If Copilot has a suggestion → Accept it
    - Else if in a snippet → Jump to next position
    - Else → Normal Tab behavior
 
 2. **Completion Flow**:
+
    - Type code → LSP completions appear in Blink.cmp menu
    - Copilot suggestions appear as ghost text
    - Both work together without conflicts
@@ -317,6 +320,7 @@ Based on v5 best practices, do NOT migrate:
 ## Post-Migration Testing
 
 1. **Verify basics work**:
+
    ```bash
    cd ~/.config/nvim
    nvim
@@ -326,6 +330,7 @@ Based on v5 best practices, do NOT migrate:
    ```
 
 2. **Test shadowenv integration**:
+
    ```bash
    cd /path/to/shopify/project
    nvim some_file.rb
@@ -333,6 +338,7 @@ Based on v5 best practices, do NOT migrate:
    ```
 
 3. **Test key features**:
+
    - [ ] `<leader>fs` opens file picker (Snacks.nvim)
    - [ ] `<C-h/j/k/l>` navigates splits
    - [ ] `<D-s>` saves file
@@ -351,24 +357,29 @@ Based on v5 best practices, do NOT migrate:
 ## Troubleshooting
 
 ### Copilot not working
+
 - Run `:Copilot auth` to authenticate
 - Check `:Copilot status` for connection issues
 - Ensure you're in a supported filetype
 
 ### Tab key confusion
+
 - The AI recipe handles Tab intelligently
 - If issues persist, check `:verbose map <Tab>` for conflicts
 
 ### File picker shows wrong UI
+
 - This is normal! v5 uses Snacks.nvim, not Telescope
 - The UI is different but functionality is similar
 
 ### Completion feels different
+
 - v5 uses Blink.cmp which is faster but has different keymaps
 - Copilot appears as ghost text, not in the completion menu
 - This separation is intentional for clarity
 
 ### Missing language features
+
 - Check `:Mason` to see what's installed
 - Language packs should handle everything automatically
 - Run `:LspInfo` in a file to verify LSP is active
@@ -376,6 +387,7 @@ Based on v5 best practices, do NOT migrate:
 ## Summary
 
 This migration creates a **cleaner, faster** configuration by:
+
 - ✅ Using AstroNvim v5's modern plugin ecosystem
 - ✅ Leveraging community packs for zero-config language support
 - ✅ Integrating Copilot with proper LSP coexistence
@@ -392,13 +404,13 @@ The following Mermaid diagram provides a detailed execution plan for the migrati
 ```mermaid
 graph TD
     Start([Start Migration]) --> PreCheck{Pre-flight Checks}
-    
+
     %% Pre-flight phase
     PreCheck --> CheckNvim[Check nvim >= 0.9]
     CheckNvim --> CheckShadow[Verify shadowenv installed]
     CheckShadow --> Backup[Create backup: cp -r ~/.config/nvim ~/.config/nvim.backup]
     Backup --> InitCommit[git add -A && git commit -m 'Pre-migration backup']
-    
+
     %% Core enablement phase
     InitCommit --> EnableCore[Enable Core Files]
     EnableCore --> RemoveGuard1[Remove guard from astrocore.lua]
@@ -406,61 +418,61 @@ graph TD
     RemoveGuard2 --> RemoveGuard3[Remove guard from astroui.lua]
     RemoveGuard3 --> RemoveGuard4[Remove guard from community.lua]
     RemoveGuard4 --> CoreCommit[git commit -m 'Enable core AstroNvim v5 configuration files']
-    
+
     %% First test point
     CoreCommit --> Test1{Run :Lazy sync}
     Test1 -->|Success| ConfigPhase[Configuration Phase]
     Test1 -->|Fail| Rollback1[git reset --hard HEAD^]
-    
+
     %% Configuration phase - Community packs
     ConfigPhase --> ConfigCommunity[Configure lua/community.lua]
     ConfigCommunity --> AddPacks[Add language packs: ruby, rust, cpp, lua, yaml, json, toml]
     AddPacks --> AddAI[Add AI recipe and copilot-lua]
     AddAI --> AddTheme[Add catppuccin theme]
     AddTheme --> CommitCommunity[git commit -m 'Configure community packs with Copilot']
-    
+
     %% Test community packs
     CommitCommunity --> Test2{:Lazy sync && :checkhealth}
     Test2 -->|Success| CoreConfig[Configure Core Settings]
     Test2 -->|Fail| Rollback2[git reset --hard HEAD^]
-    
+
     %% Core configuration
     CoreConfig --> EditCore[Edit lua/plugins/astrocore.lua]
     EditCore --> AddMappings[Add key mappings: <leader>fs, <D-s>, split navigation]
     AddMappings --> CommitCore[git commit -m 'Configure core settings and mappings']
-    
+
     %% Parallel plugin creation
     CommitCore --> CreatePlugins{Create Plugin Files}
     CreatePlugins --> Plugin1[Create copilot.lua]
     CreatePlugins --> Plugin2[Create shadowenv.lua]
     CreatePlugins --> Plugin3[Create smart-splits.lua]
     CreatePlugins --> Plugin4[Create vim-test.lua]
-    
+
     Plugin1 --> PluginCommit
     Plugin2 --> PluginCommit
     Plugin3 --> PluginCommit
     Plugin4 --> PluginCommit[git commit -m 'Add plugin configurations']
-    
+
     %% Configure remaining files
     PluginCommit --> ConfigUI[Configure astroui.lua with catppuccin-frappe]
     ConfigUI --> ConfigLSP[Configure astrolsp.lua format settings]
     ConfigLSP --> FinalCommit[git commit -m 'Complete configuration migration']
-    
+
     %% Testing phase
     FinalCommit --> TestCopilot[:Copilot auth]
     TestCopilot --> TestShadow[cd shopify/project && nvim file.rb]
     TestShadow --> TestLSP[:LspInfo - verify shadowenv wrapper]
     TestLSP --> TestMappings[Test key mappings]
     TestMappings --> TestComplete{All tests pass?}
-    
+
     TestComplete -->|Yes| Performance[:Lazy profile - check < 100ms]
     TestComplete -->|No| Debug[Debug specific failure]
-    
+
     Performance --> Success([Migration Complete])
     Debug --> Fix[Fix issue]
     Fix --> ReTest[Re-run tests]
     ReTest --> TestComplete
-    
+
     %% Rollback paths
     Rollback1 --> Abort([Migration Aborted])
     Rollback2 --> Abort
@@ -470,7 +482,7 @@ graph TD
 
 1. **Git Commit Checkpoints**: Each major phase has a git commit for easy rollback
 2. **Testing Gates**: Critical tests that must pass before proceeding
-3. **Parallel Execution**: Plugin files can be created simultaneously 
+3. **Parallel Execution**: Plugin files can be created simultaneously
 4. **Rollback Strategy**: Clear paths to revert if any step fails
 5. **Performance Verification**: Final check ensures config remains fast
 
@@ -483,4 +495,4 @@ graph TD
 
 ---
 
-*Generated by automated configuration analysis on 2025-07-12*
+_Generated by automated configuration analysis on 2025-07-12_

@@ -1,1 +1,11 @@
-{"version":"2025-07-11T23:34:26.276Z","index":{"version":"2.3.9","fields":["title","content"],"fieldVectors":[],"invertedIndex":[],"pipeline":["stemmer"]},"docStore":{}}
+{
+  "version": "2025-07-11T23:34:26.276Z",
+  "index": {
+    "version": "2.3.9",
+    "fields": ["title", "content"],
+    "fieldVectors": [],
+    "invertedIndex": [],
+    "pipeline": ["stemmer"]
+  },
+  "docStore": {}
+}
