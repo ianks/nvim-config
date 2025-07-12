@@ -6,7 +6,6 @@
 return {
   "AstroNvim/astrocommunity",
   -- Language packs (these handle LSP, treesitter, mason tools automatically)
-  { import = "astrocommunity.pack.ruby" },
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.cpp" },
   { import = "astrocommunity.pack.lua" },
