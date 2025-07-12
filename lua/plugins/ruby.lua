@@ -18,13 +18,18 @@ return {
   {
     "AstroNvim/astrolsp",
     optional = true,
-    opts = {
-      config = {
-        ruby_lsp = vim.fn.executable("shadowenv") == 1 and {
+    opts = function(_, opts)
+      -- Add ruby-lsp to servers list
+      opts.servers = opts.servers or {}
+      table.insert(opts.servers, "ruby_lsp")
+      
+      -- Configure ruby-lsp
+      opts.config = require("astrocore").extend_tbl(opts.config or {}, {
+        ruby_lsp = vim.fn.executable "shadowenv" == 1 and {
           cmd = { "shadowenv", "exec", "--", "ruby-lsp" },
           filetypes = { "ruby" },
           root_dir = function(fname)
-            local util = require("lspconfig.util")
+            local util = require "lspconfig.util"
             return util.root_pattern("Gemfile", ".git", ".shadowenv.d")(fname)
           end,
           init_options = {
@@ -35,7 +40,7 @@ return {
         } or {
           filetypes = { "ruby" },
           root_dir = function(fname)
-            local util = require("lspconfig.util")
+            local util = require "lspconfig.util"
             return util.root_pattern("Gemfile", ".git")(fname)
           end,
           init_options = {
@@ -44,8 +49,10 @@ return {
           },
           settings = {},
         },
-      },
-    },
+      })
+      
+      return opts
+    end,
   },
   {
     "mfussenegger/nvim-dap",
