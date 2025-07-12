@@ -12,7 +12,7 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "ruby-lsp", "syntax_tree" })
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "ruby-lsp" })
     end,
   },
   {
@@ -33,13 +33,17 @@ return {
             return util.root_pattern("Gemfile", ".git", ".shadowenv.d")(fname)
           end,
           init_options = {
-            formatter = "syntax_tree",
+            formatter = "auto",
             linters = {},
             enabledFeatures = {
               formatting = true,
             },
           },
-          settings = {},
+          settings = {
+            rubyLsp = {
+              formatter = "auto",
+            },
+          },
         } or {
           filetypes = { "ruby" },
           root_dir = function(fname)
@@ -47,13 +51,17 @@ return {
             return util.root_pattern("Gemfile", ".git")(fname)
           end,
           init_options = {
-            formatter = "syntax_tree",
+            formatter = "auto",
             linters = {},
             enabledFeatures = {
               formatting = true,
             },
           },
-          settings = {},
+          settings = {
+            rubyLsp = {
+              formatter = "auto",
+            },
+          },
         },
       })
 
