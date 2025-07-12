@@ -31,7 +31,7 @@ return {
       -- first key is the mode
       n = {
         -- Use Snacks.nvim picker (v5's replacement for Telescope)
-        ["<leader>fs"] = { "<cmd>Snacks.picker.files()<cr>", desc = "Find files" },
+        ["<leader>fs"] = { function() require("snacks.picker").files() end, desc = "Find files" },
         ["<D-s>"] = { "<cmd>w<cr>", desc = "Save file" },
       },
       i = { ["<D-s>"] = { "<cmd>w<cr>", desc = "Save file" } },
