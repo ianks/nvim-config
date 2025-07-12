@@ -22,7 +22,7 @@ return {
       -- Add ruby-lsp to servers list
       opts.servers = opts.servers or {}
       table.insert(opts.servers, "ruby_lsp")
-      
+
       -- Configure ruby-lsp
       opts.config = require("astrocore").extend_tbl(opts.config or {}, {
         ruby_lsp = vim.fn.executable "shadowenv" == 1 and {
@@ -33,7 +33,7 @@ return {
             return util.root_pattern("Gemfile", ".git", ".shadowenv.d")(fname)
           end,
           init_options = {
-            formatter = "auto",
+            formatter = "none",
             linters = {},
           },
           settings = {},
@@ -44,13 +44,13 @@ return {
             return util.root_pattern("Gemfile", ".git")(fname)
           end,
           init_options = {
-            formatter = "auto",
+            formatter = "none",
             linters = {},
           },
           settings = {},
         },
       })
-      
+
       return opts
     end,
   },
@@ -58,14 +58,5 @@ return {
     "mfussenegger/nvim-dap",
     optional = true,
     dependencies = { "suketa/nvim-dap-ruby", config = true },
-  },
-  {
-    "stevearc/conform.nvim",
-    optional = true,
-    opts = {
-      formatters_by_ft = {
-        ruby = { "ruby-lsp" },
-      },
-    },
   },
 }
