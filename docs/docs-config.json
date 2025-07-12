@@ -1,0 +1,7 @@
+{
+  "enabledDocs": {
+    "Vim": true,
+    "AstroNvim": true
+  },
+  "crawledDocs": {}
+}
