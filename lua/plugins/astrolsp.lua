@@ -33,11 +33,41 @@ return {
     -- enable servers that you already have installed without mason
     servers = {
       -- "pyright"
+      "ruby_lsp",
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
     config = {
       -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
+      ruby_lsp = {
+        cmd = vim.fn.executable "shadowenv" == 1 and {
+          "shadowenv",
+          "exec",
+          "--",
+          "env",
+          "RUBYOPT=-EUTF-8:UTF-8",
+          "ruby-lsp",
+        } or { "env", "RUBYOPT=-EUTF-8:UTF-8", "ruby-lsp" },
+        filetypes = { "ruby", "eruby" },
+        -- root_dir = require("lspconfig.util").root_pattern("Gemfile", ".git"),
+        init_options = {
+          -- formatter = "rubocop",
+          -- linters = { "rubocop" },
+          -- theres a bug with rubocop: https://github.com/Shopify/ruby-lsp/pull/3612
+          formatter = "none",
+          linters = {},
+
+          enabledFeatures = {
+            diagnostics = true,
+            formatting = false,
+          },
+        },
+        capabilities = {
+          general = {
+            positionEncodings = { "utf-16" },
+          },
+        },
+      },
     },
     -- customize how language servers are attached
     handlers = {
@@ -78,13 +108,6 @@ return {
           function() vim.lsp.buf.declaration() end,
           desc = "Declaration of current symbol",
           cond = "textDocument/declaration",
-        },
-        ["<Leader>uY"] = {
-          function() require("astrolsp.toggles").buffer_semantic_tokens() end,
-          desc = "Toggle LSP semantic highlight (buffer)",
-          cond = function(client)
-            return client.supports_method "textDocument/semanticTokens/full" and vim.lsp.semantic_tokens ~= nil
-          end,
         },
       },
     },
