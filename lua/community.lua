@@ -16,8 +16,8 @@ return {
   -- AI Integration Recipe - CRITICAL for proper Tab handling with Blink.cmp
   { import = "astrocommunity.recipes.ai" },
 
-  -- Copilot - Provides tight LSP integration
-  { import = "astrocommunity.completion.copilot-lua" },
+  -- Copilot - Integrates into completion menu with cmp/blink
+  { import = "astrocommunity.completion.copilot-lua-cmp" },
 
   -- Theme
   { import = "astrocommunity.colorscheme.catppuccin" },

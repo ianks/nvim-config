@@ -34,6 +34,7 @@ return {
     servers = {
       -- "pyright"
       "ruby_lsp",
+      "rubocop",
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
@@ -61,6 +62,23 @@ return {
             diagnostics = true,
             formatting = false,
           },
+        },
+        capabilities = {
+          general = {
+            positionEncodings = { "utf-16" },
+          },
+        },
+      },
+      rubocop = {
+        cmd = vim.fn.executable "shadowenv" == 1
+            and { "shadowenv", "exec", "--", "bundle", "exec", "rubocop", "--lsp" }
+          or { "bundle", "exec", "rubocop", "--lsp" },
+        filetypes = { "ruby", "eruby" },
+        -- root_dir = require("lspconfig.util").root_pattern("Gemfile", ".git"),
+        settings = {
+          useBundler = true,
+          enableExperimentalFeatures = true,
+          autoCorrect = true, -- set to true if you want to enable autocorrect on save
         },
         capabilities = {
           general = {
