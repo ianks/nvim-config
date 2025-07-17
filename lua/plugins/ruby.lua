@@ -32,7 +32,7 @@ return {
   --     -- Add ruby_lsp to the servers list to ensure it's set up
   --     opts.servers = opts.servers or {}
   --     vim.list_extend(opts.servers, { "ruby_lsp" })
-  --     
+  --
   --     -- Configure ruby_lsp
   --     opts.config = opts.config or {}
   --     opts.config.ruby_lsp = {
@@ -46,7 +46,7 @@ return {
   --       -- root directory detection for detecting the project root
   --       -- root_dir = require("lspconfig.util").root_pattern("dev.yml", "Gemfile.lock", "Gemfile"),
   --     }
-  --     
+  --
   --     return opts
   --   end,
   -- },
