@@ -19,9 +19,9 @@ return {
     "AstroNvim/astrolsp",
     optional = true,
     opts = function(_, opts)
-      -- Add ruby_lsp to the servers list to ensure it's set up
+      -- Add ruby_lsp and sorbet to the servers list to ensure they're set up
       opts.servers = opts.servers or {}
-      vim.list_extend(opts.servers, { "ruby_lsp" })
+      vim.list_extend(opts.servers, { "ruby_lsp", "sorbet" })
 
       -- Configure ruby_lsp
       opts.config = opts.config or {}
@@ -36,10 +36,108 @@ return {
               "ruby-lsp",
             }
           or { "ruby-lsp" },
-        filetypes = { "ruby", "eruby" },
+        filetypes = { "ruby", "eruby", "rake" },
         root_dir = require("lspconfig.util").root_pattern("dev.yml", "Gemfile.lock", "Gemfile"),
         init_options = {
+          enabledFeatures = {
+            codeActions = true,
+            codeLens = true,
+            completion = true,
+            definition = true,
+            diagnostics = true,
+            documentHighlights = true,
+            documentLink = true,
+            documentSymbols = true,
+            foldingRanges = true,
+            formatting = true,
+            hover = true,
+            inlayHint = true,
+            onTypeFormatting = true,
+            selectionRanges = true,
+            semanticHighlighting = true,
+            signatureHelp = true,
+            typeHierarchy = true,
+            workspaceSymbol = true,
+          },
+          featuresConfiguration = {
+            inlayHint = {
+              implicitHashValue = true,
+              implicitRescue = true,
+            },
+          },
+          indexing = {
+            excludedPatterns = {},
+            includedPatterns = {},
+            excludedGems = {},
+            excludedMagicComments = {},
+          },
           formatter = "auto",
+          linters = { "rubocop" },
+          experimentalFeaturesEnabled = false,
+        },
+        settings = {
+          rubyLsp = {
+            enabledFeatures = {
+              codeActions = true,
+              codeLens = true,
+              completion = true,
+              definition = true,
+              diagnostics = true,
+              documentHighlights = true,
+              documentLink = true,
+              documentSymbols = true,
+              foldingRanges = true,
+              formatting = true,
+              hover = true,
+              inlayHint = true,
+              onTypeFormatting = true,
+              selectionRanges = true,
+              semanticHighlighting = true,
+              signatureHelp = true,
+              typeHierarchy = true,
+              workspaceSymbol = true,
+              typeCheck = true,
+            },
+            featuresConfiguration = {
+              inlayHint = {
+                implicitHashValue = true,
+                implicitRescue = true,
+              },
+            },
+            indexing = {
+              excludedPatterns = {},
+              includedPatterns = {},
+              excludedGems = {},
+              excludedMagicComments = {},
+            },
+            formatter = "auto",
+            linters = { "rubocop" },
+            experimentalFeaturesEnabled = false,
+          },
+        },
+        capabilities = {
+          general = {
+            positionEncodings = { "utf-16" },
+          },
+        },
+      }
+
+      -- Configure sorbet
+      opts.config.sorbet = {
+        cmd = vim.fn.executable "shadowenv" == 1
+            and {
+              "shadowenv",
+              "exec",
+              "--",
+              "srb",
+              "tc",
+              "--lsp",
+            }
+          or { "srb", "tc", "--lsp" },
+        filetypes = { "ruby", "eruby", "rake" },
+        root_dir = require("lspconfig.util").root_pattern("sorbet/config"),
+        init_options = {
+          highlightUntyped = "everywhere", -- or "nowhere" or "everywhere-but-tests"
         },
         capabilities = {
           general = {
