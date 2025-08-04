@@ -1,0 +1,21 @@
+---@type LazySpec
+return {
+  -- {
+  --   dir = "/Users/ianks/src/github.com/ianks/claude-code-ide.nvim",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "folke/snacks.nvim",
+  --   },
+  --   rocks = { "sha1" },
+  --   lazy = true,
+  --   keys = {
+  --     { "<leader>ct", function() require("claude-code-ide").toggle() end, desc = "Toggle Claude terminal" },
+  --   },
+  --   config = function()
+  --     require("claude-code-ide").setup {
+  --       port = 0,
+  --       host = "127.0.0.1",
+  --     }
+  --   end,
+  -- },
+}

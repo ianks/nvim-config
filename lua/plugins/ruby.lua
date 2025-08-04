@@ -26,16 +26,16 @@ return {
       -- Configure ruby_lsp
       opts.config = opts.config or {}
       opts.config.ruby_lsp = {
-        cmd = vim.fn.executable "shadowenv" == 1
-            and {
-              "shadowenv",
-              "exec",
-              "--",
-              -- "env",
-              -- "RUBYOPT=-EUTF-8:UTF-8",
-              "ruby-lsp",
-            }
-          or { "ruby-lsp" },
+        cmd = {
+          -- "ra-multiplex",
+          -- "client",
+          -- "--server-path",
+          "/opt/homebrew/bin/shadowenv",
+          -- "--",
+          "exec",
+          "--",
+          "ruby-lsp",
+        },
         filetypes = { "ruby", "eruby", "rake" },
         root_dir = require("lspconfig.util").root_pattern("dev.yml", "Gemfile.lock", "Gemfile"),
         init_options = {
@@ -116,33 +116,31 @@ return {
           },
         },
         capabilities = {
-          general = {
-            positionEncodings = { "utf-16" },
-          },
+          offsetEncoding = "utf-16",
         },
       }
 
       -- Configure sorbet
       opts.config.sorbet = {
-        cmd = vim.fn.executable "shadowenv" == 1
-            and {
-              "shadowenv",
-              "exec",
-              "--",
-              "srb",
-              "tc",
-              "--lsp",
-            }
-          or { "srb", "tc", "--lsp" },
+        cmd = {
+          -- "ra-multiplex",
+          -- "client",
+          -- "--server-path",
+          "/opt/homebrew/bin/shadowenv",
+          -- "--",
+          "exec",
+          "--",
+          "srb",
+          "tc",
+          "--lsp",
+        },
         filetypes = { "ruby", "eruby", "rake" },
-        root_dir = require("lspconfig.util").root_pattern("sorbet/config"),
+        root_dir = require("lspconfig.util").root_pattern "sorbet/config",
         init_options = {
           highlightUntyped = "everywhere", -- or "nowhere" or "everywhere-but-tests"
         },
         capabilities = {
-          general = {
-            positionEncodings = { "utf-16" },
-          },
+          offsetEncoding = "utf-16",
         },
       }
 
