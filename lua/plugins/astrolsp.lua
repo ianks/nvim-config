@@ -45,6 +45,25 @@ return {
           desc = "Declaration of current symbol",
           cond = "textDocument/declaration",
         },
+        gd = {
+          function()
+            local clients = vim.lsp.get_clients { bufnr = 0 }
+            local has_definition = false
+            for _, client in ipairs(clients) do
+              if client.server_capabilities.definitionProvider then
+                has_definition = true
+                break
+              end
+            end
+
+            if has_definition then
+              vim.lsp.buf.definition()
+            else
+              vim.cmd "normal! g<C-]>"
+            end
+          end,
+          desc = "Go to definition (LSP or tags)",
+        },
         ["<C-.>"] = {
           function() vim.lsp.buf.code_action() end,
           desc = "Code action",

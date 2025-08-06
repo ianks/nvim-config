@@ -6,12 +6,12 @@
 return {
   "AstroNvim/astrocommunity",
   -- Language packs (these handle LSP, treesitter, mason tools automatically)
-  { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.cpp" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.toml" },
+  { import = "astrocommunity.editing-support.copilotchat-nvim" },
 
   -- AI Integration Recipe - CRITICAL for proper Tab handling with Blink.cmp
   { import = "astrocommunity.recipes.ai" },

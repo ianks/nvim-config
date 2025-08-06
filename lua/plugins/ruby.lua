@@ -9,13 +9,6 @@ return {
     end,
   },
   {
-    "williamboman/mason.nvim",
-    opts = function(_, opts)
-      -- Remove ruby-lsp from ensure_installed to prevent Mason from auto-installing it
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "ruby-lsp" })
-    end,
-  },
-  {
     "AstroNvim/astrolsp",
     optional = true,
     opts = function(_, opts)
@@ -138,9 +131,6 @@ return {
         root_dir = require("lspconfig.util").root_pattern "sorbet/config",
         init_options = {
           highlightUntyped = "everywhere", -- or "nowhere" or "everywhere-but-tests"
-        },
-        capabilities = {
-          offsetEncoding = "utf-16",
         },
       }
 

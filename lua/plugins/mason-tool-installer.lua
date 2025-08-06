@@ -13,6 +13,12 @@ return {
       return true
     end, opts.ensure_installed)
 
+    -- Add Rust tools
+    vim.list_extend(opts.ensure_installed, {
+      "rust-analyzer",
+      "codelldb", -- Rust debugger
+    })
+
     return opts
   end,
 }
