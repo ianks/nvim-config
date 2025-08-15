@@ -12,40 +12,42 @@ return {
     "AstroNvim/astrolsp",
     optional = true,
     opts = function(_, opts)
-      -- Add rust_analyzer to the servers list to ensure it's set up
+      -- Add rust_analyzer to servers list
       opts.servers = opts.servers or {}
       vim.list_extend(opts.servers, { "rust_analyzer" })
-
+      
       -- Configure rust_analyzer
       opts.config = opts.config or {}
       
-      -- Try to connect to ra-multiplex first
-      local cmd = nil
-      local lspMux = nil
+      -- Try to connect to ra-multiplex
+      local ra_multiplex_cmd = nil
       local ok, result = pcall(vim.lsp.rpc.connect, "127.0.0.1", 27631)
       if ok and result then
-        cmd = result
-        lspMux = {
-          version = "1",
-          method = "connect",
-          server = "rust-analyzer",
-        }
-      else
-        -- Fallback notification will be shown when LSP attaches
-        vim.schedule(function()
-          require("astrocore").notify("ra-multiplex not available, using standard rust-analyzer", vim.log.levels.WARN)
-        end)
+        ra_multiplex_cmd = result
       end
       
       opts.config.rust_analyzer = {
-        cmd = cmd, -- Will be nil if ra-multiplex is not available, falling back to default
+        cmd = ra_multiplex_cmd, -- nil falls back to default
+        on_attach = function(client, bufnr)
+          -- Check if we're using ra-multiplex
+          if not ra_multiplex_cmd then
+            require("astrocore").notify("ra-multiplex not available, using standard rust-analyzer", vim.log.levels.WARN)
+          end
+        end,
         settings = {
           ["rust-analyzer"] = {
-            lspMux = lspMux, -- Will be nil if not using ra-multiplex
+            lspMux = ra_multiplex_cmd and {
+              version = "1",
+              method = "connect",
+              server = "rust-analyzer",
+            } or nil,
             cargo = {
               allFeatures = true,
               loadOutDirsFromCheck = true,
               runBuildScripts = true,
+              buildScripts = {
+                enable = true,
+              },
             },
             checkOnSave = {
               allFeatures = true,
@@ -54,6 +56,9 @@ return {
             },
             procMacro = {
               enable = true,
+              attributes = {
+                enable = true,
+              },
               ignored = {
                 ["async-trait"] = { "async_trait" },
                 ["napi-derive"] = { "napi" },
@@ -101,7 +106,7 @@ return {
           },
         },
       }
-
+      
       return opts
     end,
   },
