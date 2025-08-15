@@ -4,7 +4,11 @@
       "WebFetch(domain:docs.crawl4ai.com)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:ghostty.org)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(echo:*)",
+      "Bash(echo \"PS1: ''$PS1''\")",
+      "Bash(printf \"Press Shift+Enter then Ctrl+C to see what''s sent:\\n\")",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "additionalDirectories": [
