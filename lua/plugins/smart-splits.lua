@@ -37,23 +37,21 @@ return {
   opts = {
     ignored_filetypes = { "nofile", "quickfix", "prompt" },
     ignored_buftypes = { "nofile" },
-    -- Multiplexer integration
-    multiplexer_integration = "tmux",
-    -- Disable multiplexer navigation if no splits are open
-    disable_multiplexer_nav_when_zoomed = true,
-    -- Automatically save and restore tmux pane zoom state
-    tmux_integration = {
-      -- Resize mode options
-      resize_mode = {
-        -- Quit resize mode with ESC
-        quit_key = "ESC",
-        -- Resize step size
-        resize_keys = { "h", "j", "k", "l" },
-        -- Set to true to silence notifications
-        silent = false,
-      },
-      -- Write tmux pane id to tmp file for detecting if nvim is running
-      persist_pane_id = true,
+    -- Cursor follows focused window when moving
+    cursor_follows_swapped_bufs = true,
+    -- Resize mode options
+    resize_mode = {
+      -- Quit resize mode with ESC
+      quit_key = "ESC",
+      -- Resize keys
+      resize_keys = { "h", "j", "k", "l" },
+      -- Set to false to show notifications
+      silent = true,
     },
+    -- Multiplexer integration (auto-detected, but we can specify tmux)
+    -- The plugin will automatically detect tmux via TMUX env variable
+    default_amount = 3,
+    -- Disable multiplexer navigation when zoomed
+    disable_multiplexer_nav_when_zoomed = true,
   },
 }
