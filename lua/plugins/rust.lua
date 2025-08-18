@@ -15,17 +15,15 @@ return {
       -- Add rust_analyzer to servers list
       opts.servers = opts.servers or {}
       vim.list_extend(opts.servers, { "rust_analyzer" })
-      
+
       -- Configure rust_analyzer
       opts.config = opts.config or {}
-      
+
       -- Try to connect to ra-multiplex
       local ra_multiplex_cmd = nil
       local ok, result = pcall(vim.lsp.rpc.connect, "127.0.0.1", 27631)
-      if ok and result then
-        ra_multiplex_cmd = result
-      end
-      
+      if ok and result then ra_multiplex_cmd = result end
+
       opts.config.rust_analyzer = {
         cmd = ra_multiplex_cmd, -- nil falls back to default
         on_attach = function(client, bufnr)
@@ -106,7 +104,7 @@ return {
           },
         },
       }
-      
+
       return opts
     end,
   },

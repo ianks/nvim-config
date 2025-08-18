@@ -23,10 +23,10 @@ return {
         relativenumber = true,
         number = true,
         wrap = false,
-        signcolumn = "yes:1",  -- Consistent 1-char sign column
-        foldcolumn = "0",       -- No fold column for maximum space
-        cmdheight = 1,          -- Minimal command line height
-        laststatus = 3,         -- Global statusline (less visual clutter)
+        signcolumn = "yes:1", -- Consistent 1-char sign column
+        foldcolumn = "0", -- No fold column for maximum space
+        cmdheight = 1, -- Minimal command line height
+        laststatus = 3, -- Global statusline (less visual clutter)
       },
     },
     -- Mappings can be configured through AstroCore as well.
@@ -37,14 +37,35 @@ return {
         -- Use Snacks.nvim picker (v5's replacement for Telescope)
         ["<leader>fs"] = { function() require("snacks.picker").files() end, desc = "Find files" },
         ["<D-s>"] = { "<cmd>w<cr>", desc = "Save file" },
-        
+
         -- Buffer navigation with Alt+Shift+hjkl (from Cmd+hjkl via Ghostty/tmux)
         ["<M-S-h>"] = { "<cmd>bprevious<cr>", desc = "Previous buffer" },
         ["<M-S-l>"] = { "<cmd>bnext<cr>", desc = "Next buffer" },
         ["<M-S-j>"] = { "<cmd>bnext<cr>", desc = "Next buffer (alt)" },
         ["<M-S-k>"] = { "<cmd>bprevious<cr>", desc = "Previous buffer (alt)" },
+
+        -- Aider AI comment helpers
+        ["<leader>a"] = { desc = "󰚩 Aider" },
+        ["<leader>a!"] = {
+          function()
+            local line = vim.api.nvim_get_current_line()
+            local comment_char = vim.bo.commentstring:match "^(.-)%%s" or "//"
+            vim.api.nvim_set_current_line(line .. " " .. comment_char .. " AI!")
+          end,
+          desc = "Add AI! to line",
+        },
+        ["<leader>a?"] = {
+          function()
+            local line = vim.api.nvim_get_current_line()
+            local comment_char = vim.bo.commentstring:match "^(.-)%%s" or "//"
+            vim.api.nvim_set_current_line(line .. " " .. comment_char .. " AI?")
+          end,
+          desc = "Add AI? to line",
+        },
+        ["<leader>ac"] = { ":AICode ", desc = "Add AI! code request" },
+        ["<leader>aq"] = { ":AIAsk ", desc = "Add AI? question" },
       },
-      i = { 
+      i = {
         ["<D-s>"] = { "<cmd>w<cr>", desc = "Save file" },
         -- Buffer navigation in insert mode
         ["<M-S-h>"] = { "<esc><cmd>bprevious<cr>", desc = "Previous buffer" },
