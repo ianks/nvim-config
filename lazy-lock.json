@@ -1,7 +1,7 @@
 {
   "AstroNvim": {
     "branch": "main",
-    "commit": "b6f6b7ca9372a338c6e39716710393396808f88d"
+    "commit": "2bb2fa9a01311ae7f9bfebf7b3ae996bcc4717be"
   },
   "CopilotChat.nvim": {
     "branch": "main",
@@ -13,11 +13,11 @@
   },
   "aerial.nvim": {
     "branch": "master",
-    "commit": "3284a2cb858ba009c79da87d5e010ccee3c99c4d"
+    "commit": "deed64693123b45a4e82590cb9b2eb45ea5fd159"
   },
   "astrocommunity": {
     "branch": "main",
-    "commit": "383f86e1fca91adc013fd99dd4a4a01777471f3e"
+    "commit": "c70bd8c4673c03cf31c84485df00a0c2af403be1"
   },
   "astrocore": {
     "branch": "main",
@@ -49,7 +49,7 @@
   },
   "catppuccin": {
     "branch": "main",
-    "commit": "3aaf3ab60221bca8edb1354e41bd514a22c89de2"
+    "commit": "30fa4d122d9b22ad8b2e0ab1b533c8c26c4dde86"
   },
   "clangd_extensions.nvim": {
     "branch": "main",
@@ -65,7 +65,7 @@
   },
   "copilot.lua": {
     "branch": "master",
-    "commit": "5b49bff9fa85a60a7b181b870eae212ec910f1aa"
+    "commit": "f0c0d981de2737abc50bd7b5bb034ae440826827"
   },
   "friendly-snippets": {
     "branch": "main",
@@ -125,7 +125,7 @@
   },
   "neoconf.nvim": {
     "branch": "main",
-    "commit": "6df663e1af8ab49a449ae09ea8b4f6c53b1ec334"
+    "commit": "5aeca07ecb2f506d32e81eb82b0ed384ac2a53c5"
   },
   "none-ls.nvim": {
     "branch": "main",
@@ -149,7 +149,7 @@
   },
   "nvim-highlight-colors": {
     "branch": "main",
-    "commit": "b42a5ccec7457b44e89f7ed3b3afb1b375bb2093"
+    "commit": "1ce0a09bfc28c7274e649d20927cea51e440b65c"
   },
   "nvim-lspconfig": {
     "branch": "master",
@@ -161,7 +161,7 @@
   },
   "nvim-surround": {
     "branch": "main",
-    "commit": "7a7a78a52219a3312c1fcabf880cea07a7956a5f"
+    "commit": "d56752df477ebd808cb82cea2fc68cf7455abb21"
   },
   "nvim-treesitter": {
     "branch": "master",
@@ -189,7 +189,7 @@
   },
   "schemastore.nvim": {
     "branch": "main",
-    "commit": "ae4039eceaeda147a91b6b26e4fb4a2ca16bb503"
+    "commit": "433a310de5cbab41f1eb3424332a583e21e39f5c"
   },
   "shadowenv.vim": {
     "branch": "main",
@@ -207,17 +207,13 @@
     "branch": "main",
     "commit": "304a8d204ee787d2544d8bc23cd38d2f929e7cc5"
   },
-  "toggleterm.nvim": {
-    "branch": "main",
-    "commit": "50ea089fc548917cc3cc16b46a8211833b9e3c7c"
-  },
   "vim-illuminate": {
     "branch": "master",
     "commit": "0d1e93684da00ab7c057410fecfc24f434698898"
   },
   "vim-test": {
     "branch": "master",
-    "commit": "191c9ee3a7c798bd25fe48f3534dcab5cb05c60d"
+    "commit": "5fb927e90e1ca11c656762f8528000312f842b1e"
   },
   "which-key.nvim": {
     "branch": "main",

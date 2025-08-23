@@ -64,6 +64,15 @@ return {
         },
         ["<leader>ac"] = { ":AICode ", desc = "Add AI! code request" },
         ["<leader>aq"] = { ":AIAsk ", desc = "Add AI? question" },
+
+        -- vim-test keybindings (using tmux via vimux)
+        ["<leader>t"] = { desc = "󰙨 Testing" },
+        ["<leader>tn"] = { "<cmd>TestNearest<CR>", desc = "Test Nearest" },
+        ["<leader>tf"] = { "<cmd>TestFile<CR>", desc = "Test File" },
+        ["<leader>tl"] = { "<cmd>TestLast<CR>", desc = "Test Last" },
+        ["<leader>tc"] = { "<cmd>TestClass<CR>", desc = "Test Class" },
+        ["<leader>ts"] = { "<cmd>TestSuite<CR>", desc = "Test Suite" },
+        ["<leader>tv"] = { "<cmd>TestVisit<CR>", desc = "Test Visit" },
       },
       i = {
         ["<D-s>"] = { "<cmd>w<cr>", desc = "Save file" },

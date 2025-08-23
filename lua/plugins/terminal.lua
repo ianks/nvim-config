@@ -1,20 +1,7 @@
+-- Terminal functionality removed - using tmux with ianks-dev instead
 return {
   {
     "akinsho/toggleterm.nvim",
-    version = "*",
-    keys = {
-      {
-        "<C-`>",
-        function() require("toggleterm").toggle() end,
-        desc = "Toggle terminal",
-        mode = { "n", "t" },
-      },
-    },
-    opts = {
-      direction = "float",
-      float_opts = {
-        border = "curved",
-      },
-    },
+    enabled = false, -- Explicitly disable toggleterm
   },
 }

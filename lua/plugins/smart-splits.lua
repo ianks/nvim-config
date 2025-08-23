@@ -28,42 +28,52 @@ return {
     -- Set up keymaps after plugin loads
     local map = vim.keymap.set
 
-    -- Navigation with Option+hjkl (works in normal and terminal modes)
+    -- Navigation with Hyper+hjkl (Ctrl+Alt) - works in normal and terminal modes
+    -- This matches what tmux sends when vim is detected
     map(
       { "n", "t" },
-      "<M-h>",
+      "<C-M-h>",
       function() require("smart-splits").move_cursor_left() end,
-      { desc = "Move to left split" }
+      { desc = "Move to left split (Hyper+h)" }
     )
     map(
       { "n", "t" },
-      "<M-j>",
+      "<C-M-j>",
       function() require("smart-splits").move_cursor_down() end,
-      { desc = "Move to lower split" }
+      { desc = "Move to lower split (Hyper+j)" }
     )
     map(
       { "n", "t" },
-      "<M-k>",
+      "<C-M-k>",
       function() require("smart-splits").move_cursor_up() end,
-      { desc = "Move to upper split" }
+      { desc = "Move to upper split (Hyper+k)" }
     )
     map(
       { "n", "t" },
-      "<M-l>",
+      "<C-M-l>",
       function() require("smart-splits").move_cursor_right() end,
-      { desc = "Move to right split" }
+      { desc = "Move to right split (Hyper+l)" }
     )
 
-    -- Resizing with Alt+HJKL (uppercase) - from Cmd+Shift+hjkl
-    map("n", "<M-H>", function() require("smart-splits").resize_left() end, { desc = "Resize split left" })
-    map("n", "<M-J>", function() require("smart-splits").resize_down() end, { desc = "Resize split down" })
-    map("n", "<M-K>", function() require("smart-splits").resize_up() end, { desc = "Resize split up" })
-    map("n", "<M-L>", function() require("smart-splits").resize_right() end, { desc = "Resize split right" })
-
-    -- Also keep Option+Shift+hjkl as fallback
-    map("n", "<M-S-h>", function() require("smart-splits").resize_left() end, { desc = "Resize split left" })
-    map("n", "<M-S-j>", function() require("smart-splits").resize_down() end, { desc = "Resize split down" })
-    map("n", "<M-S-k>", function() require("smart-splits").resize_up() end, { desc = "Resize split up" })
-    map("n", "<M-S-l>", function() require("smart-splits").resize_right() end, { desc = "Resize split right" })
+    -- Resizing with Hyper+Arrows - Ctrl+Alt+Arrow keys
+    map(
+      "n",
+      "<C-M-Left>",
+      function() require("smart-splits").resize_left() end,
+      { desc = "Resize split left (Hyper+←)" }
+    )
+    map(
+      "n",
+      "<C-M-Down>",
+      function() require("smart-splits").resize_down() end,
+      { desc = "Resize split down (Hyper+↓)" }
+    )
+    map("n", "<C-M-Up>", function() require("smart-splits").resize_up() end, { desc = "Resize split up (Hyper+↑)" })
+    map(
+      "n",
+      "<C-M-Right>",
+      function() require("smart-splits").resize_right() end,
+      { desc = "Resize split right (Hyper+→)" }
+    )
   end,
 }
