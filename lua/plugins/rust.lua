@@ -19,26 +19,11 @@ return {
       -- Configure rust_analyzer
       opts.config = opts.config or {}
 
-      -- Try to connect to ra-multiplex
-      local ra_multiplex_cmd = nil
-      local ok, result = pcall(vim.lsp.rpc.connect, "127.0.0.1", 27631)
-      if ok and result then ra_multiplex_cmd = result end
-
       opts.config.rust_analyzer = {
-        cmd = ra_multiplex_cmd, -- nil falls back to default
-        on_attach = function(client, bufnr)
-          -- Check if we're using ra-multiplex
-          if not ra_multiplex_cmd then
-            require("astrocore").notify("ra-multiplex not available, using standard rust-analyzer", vim.log.levels.WARN)
-          end
-        end,
+        -- Use default rust-analyzer command (Mason-installed or system)
+        -- To use ra-multiplex, set: cmd = vim.lsp.rpc.connect("127.0.0.1", 27631)
         settings = {
           ["rust-analyzer"] = {
-            lspMux = ra_multiplex_cmd and {
-              version = "1",
-              method = "connect",
-              server = "rust-analyzer",
-            } or nil,
             cargo = {
               allFeatures = true,
               loadOutDirsFromCheck = true,
@@ -47,11 +32,12 @@ return {
                 enable = true,
               },
             },
-            checkOnSave = {
+            check = {
               allFeatures = true,
               command = "clippy",
               extraArgs = { "--no-deps" },
             },
+            checkOnSave = true,
             procMacro = {
               enable = true,
               attributes = {

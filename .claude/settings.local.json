@@ -9,9 +9,13 @@
       "Bash(echo \"PS1: ''$PS1''\")",
       "Bash(printf \"Press Shift+Enter then Ctrl+C to see what''s sent:\\n\")",
       "Bash(cat:*)",
-      "WebFetch(domain:aider.chat)"
+      "WebFetch(domain:aider.chat)",
+      "WebFetch(domain:shopify.github.io)",
+      "mcp__sequential-thinking__sequentialthinking"
     ],
     "deny": [],
-    "additionalDirectories": ["/Users/ianks/shopify-dotfiles"]
+    "additionalDirectories": [
+      "/Users/ianks/shopify-dotfiles"
+    ]
   }
 }

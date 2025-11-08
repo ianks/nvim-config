@@ -130,7 +130,7 @@ return {
         filetypes = { "ruby", "eruby", "rake" },
         root_dir = require("lspconfig.util").root_pattern "sorbet/config",
         init_options = {
-          highlightUntyped = "everywhere", -- or "nowhere" or "everywhere-but-tests"
+          highlightUntyped = "nowhere", -- reduces diagnostic noise
         },
       }
 
