@@ -1,7 +1,10 @@
+-- ianks-dev: local custom dev utilities module
+-- Now located at ~/.config/nvim/lua/ianks-dev/
 return {
-  dir = "~/shopify-dotfiles/modules/ianks-dev",
-  name = "ianks-dev",
+  "vim-test/vim-test",
   lazy = false,
-  dependencies = { "vim-test/vim-test" },
-  config = function() require("ianks-dev").setup() end,
+  config = function()
+    -- Setup ianks-dev utilities after vim-test is loaded
+    require("ianks-dev").setup()
+  end,
 }

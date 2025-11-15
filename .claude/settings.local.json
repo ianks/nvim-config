@@ -14,8 +14,6 @@
       "mcp__sequential-thinking__sequentialthinking"
     ],
     "deny": [],
-    "additionalDirectories": [
-      "/Users/ianks/shopify-dotfiles"
-    ]
+    "additionalDirectories": ["/Users/ianks/shopify-dotfiles"]
   }
 }

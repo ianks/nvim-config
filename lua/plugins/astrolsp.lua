@@ -16,9 +16,7 @@ return {
       },
       timeout_ms = 1000, -- default format timeout
     },
-    servers = {
-      "ruby_lsp",
-    },
+    servers = {},
     ---@diagnostic disable: missing-fields
     config = {
       clangd = { capabilities = { offsetEncoding = "utf-8" } },
