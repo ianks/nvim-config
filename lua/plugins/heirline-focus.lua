@@ -3,8 +3,8 @@ return {
   "rebelot/heirline.nvim",
   opts = function(_, opts)
     -- Editorial Warmth dimmed colors matching tmux theme
-    local DIM_BG = "#272624"  -- bg_dim from theme.yml
-    local DIM_FG = "#b2afa9"  -- text_dim from theme.yml
+    local DIM_BG = "#272624" -- bg_dim from theme.yml
+    local DIM_FG = "#b2afa9" -- text_dim from theme.yml
 
     -- Store original hl function if it exists
     local original_hl = opts.statusline and opts.statusline.hl

@@ -11,16 +11,15 @@ return {
   { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.toml" },
-  { import = "astrocommunity.editing-support.copilotchat-nvim" },
-
-  -- AI Integration Recipe - CRITICAL for proper Tab handling with Blink.cmp
-  { import = "astrocommunity.recipes.ai" },
 
   -- Copilot - Integrates into completion menu with cmp/blink
   { import = "astrocommunity.completion.copilot-lua-cmp" },
 
   -- Theme
   { import = "astrocommunity.colorscheme.catppuccin" },
+
+  -- AI Coding Agent
+  { import = "astrocommunity.completion.avante-nvim" },
 
   -- Useful motion plugins
   { import = "astrocommunity.motion.nvim-surround" },
