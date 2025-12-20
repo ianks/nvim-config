@@ -12,7 +12,9 @@ M.setup = function()
 
   -- Set up autocmd to clean up test pane on exit
   vim.api.nvim_create_autocmd("VimLeavePre", {
-    callback = function() require("ianks-dev.tmux").cleanup() end,
+    callback = function()
+      require("ianks-dev.tmux").cleanup()
+    end,
   })
 end
 

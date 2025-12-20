@@ -57,7 +57,7 @@ M.setup = function()
       -- Dim all windows when entire nvim pane loses focus
       local winhighlight = table.concat(DIM_HIGHLIGHTS, ",")
       for _, win in ipairs(vim.api.nvim_list_wins()) do
-        vim.api.nvim_win_set_option(win, "winhighlight", winhighlight)
+        vim.api.nvim_win_set_option(win, 'winhighlight', winhighlight)
       end
     end,
   })
