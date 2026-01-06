@@ -30,6 +30,9 @@ return {
           cmdheight = 1, -- Minimal command line height
           laststatus = 3, -- Global statusline (less visual clutter)
         },
+        g = { -- vim.g.<key>
+          autoformat_enabled = true, -- Enable format on save
+        },
       },
       -- Mappings can be configured through AstroCore as well.
       -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
@@ -73,6 +76,12 @@ return {
           ["<leader>tc"] = { "<cmd>TestClass<CR>", desc = "Test Class" },
           ["<leader>ts"] = { "<cmd>TestSuite<CR>", desc = "Test Suite" },
           ["<leader>tv"] = { "<cmd>TestVisit<CR>", desc = "Test Visit" },
+
+          -- Disable suspend, open tmux pane instead (break Ctrl-Z/fg habit)
+          ["<C-z>"] = {
+            function() vim.fn.system("tmux split-window -v -l 25%") end,
+            desc = "Split tmux pane (no suspend)",
+          },
         },
         i = {
           ["<D-s>"] = { "<cmd>w<cr>", desc = "Save file" },
